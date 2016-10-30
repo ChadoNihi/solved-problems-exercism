@@ -1,0 +1,54 @@
+var _exercism$xelm$Anagram$dec$ = function (i) {
+	var _p0 = i;
+	if (_p0.ctor === 'Nothing') {
+		return _elm_lang$core$Maybe$Just(-1);
+	} else {
+		return _elm_lang$core$Maybe$Just(_p0._0 - 1);
+	}
+};
+var _exercism$xelm$Anagram$inc$ = function (i) {
+	var _p1 = i;
+	if (_p1.ctor === 'Nothing') {
+		return _elm_lang$core$Maybe$Just(1);
+	} else {
+		return _elm_lang$core$Maybe$Just(_p1._0 + 1);
+	}
+};
+var _exercism$xelm$Anagram$decount = F2(
+	function (ch, d) {
+		return A2(_elm_lang$core$Dict$member, ch, d) ? A3(_elm_lang$core$Dict$update, ch, _exercism$xelm$Anagram$dec$, d) : A3(_elm_lang$core$Dict$insert, ch, -1, d);
+	});
+var _exercism$xelm$Anagram$count = F2(
+	function (ch, d) {
+		return A2(_elm_lang$core$Dict$member, ch, d) ? A3(_elm_lang$core$Dict$update, ch, _exercism$xelm$Anagram$inc$, d) : A3(_elm_lang$core$Dict$insert, ch, 1, d);
+	});
+var _exercism$xelm$Anagram$isAnagramOf = F2(
+	function (w, s) {
+		if ((!_elm_lang$core$Native_Utils.eq(
+			_elm_lang$core$String$length(w),
+			_elm_lang$core$String$length(s))) || _elm_lang$core$Native_Utils.eq(w, s)) {
+			return false;
+		} else {
+			var temp = A3(_elm_lang$core$String$foldl, _exercism$xelm$Anagram$count, _elm_lang$core$Dict$empty, w);
+			var hist = A3(_elm_lang$core$String$foldl, _exercism$xelm$Anagram$decount, temp, s);
+			return A2(
+				_elm_lang$core$List$all,
+				function (cnt) {
+					return _elm_lang$core$Native_Utils.eq(cnt, 0);
+				},
+				_elm_lang$core$Dict$values(hist));
+		}
+	});
+var _exercism$xelm$Anagram$detect = F2(
+	function (s, anagrams) {
+		var s = _elm_lang$core$String$toLower(s);
+		return A2(
+			_elm_lang$core$List$filter,
+			function (w) {
+				return A2(
+					_exercism$xelm$Anagram$isAnagramOf,
+					_elm_lang$core$String$toLower(w),
+					s);
+			},
+			anagrams);
+	});

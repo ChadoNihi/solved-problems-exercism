@@ -1,0 +1,8 @@
+var _exercism$xelm$Triangle$version = 2;
+var _exercism$xelm$Triangle$Scalene = {ctor: 'Scalene'};
+var _exercism$xelm$Triangle$Isosceles = {ctor: 'Isosceles'};
+var _exercism$xelm$Triangle$Equilateral = {ctor: 'Equilateral'};
+var _exercism$xelm$Triangle$triangleKind = F3(
+	function (a, b, c) {
+		return ((_elm_lang$core$Native_Utils.cmp(a, 0) < 1) || ((_elm_lang$core$Native_Utils.cmp(b, 0) < 1) || (_elm_lang$core$Native_Utils.cmp(c, 0) < 1))) ? _elm_lang$core$Result$Err('Invalid lengths') : (((_elm_lang$core$Native_Utils.cmp(a, b + c) > 0) || ((_elm_lang$core$Native_Utils.cmp(b, a + c) > 0) || (_elm_lang$core$Native_Utils.cmp(c, a + b) > 0))) ? _elm_lang$core$Result$Err('Violates inequality') : ((_elm_lang$core$Native_Utils.eq(a, b) && _elm_lang$core$Native_Utils.eq(b, c)) ? _elm_lang$core$Result$Ok(_exercism$xelm$Triangle$Equilateral) : ((_elm_lang$core$Native_Utils.eq(a, b) || (_elm_lang$core$Native_Utils.eq(b, c) || _elm_lang$core$Native_Utils.eq(c, a))) ? _elm_lang$core$Result$Ok(_exercism$xelm$Triangle$Isosceles) : _elm_lang$core$Result$Ok(_exercism$xelm$Triangle$Scalene))));
+	});

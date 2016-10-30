@@ -1,0 +1,11 @@
+var _exercism$xelm$Bob$hey = function (strToBob) {
+	return _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$trim(strToBob),
+		'') ? 'Fine. Be that way!' : (((A2(_elm_lang$core$String$endsWith, '!', strToBob) && _elm_lang$core$Basics$not(
+		A2(_elm_lang$core$String$startsWith, 'Let\'s', strToBob))) || (_elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$toUpper(strToBob),
+		strToBob) && A2(
+		_elm_lang$core$Regex$contains,
+		_elm_lang$core$Regex$regex('[a-zA-Z]'),
+		strToBob))) ? 'Whoa, chill out!' : (A2(_elm_lang$core$String$endsWith, '?', strToBob) ? 'Sure.' : 'Whatever.'));
+};

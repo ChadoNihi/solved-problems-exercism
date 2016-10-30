@@ -1,0 +1,10 @@
+var _exercism$xelm$Pangram$isPangram = function (s) {
+	var nUniqLetters = _elm_lang$core$Set$size(
+		_elm_lang$core$Set$fromList(
+			_elm_lang$core$String$toList(
+				A2(
+					_elm_lang$core$String$filter,
+					_elm_lang$core$Char$isLower,
+					_elm_lang$core$String$toLower(s)))));
+	return _elm_lang$core$Native_Utils.cmp(nUniqLetters, 26) > -1;
+};

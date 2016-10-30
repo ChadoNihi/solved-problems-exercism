@@ -1,0 +1,32 @@
+var _exercism$xelm$Raindrops$pushIfDivBy = F4(
+	function (sToPush, fctr, n, arr) {
+		return _elm_lang$core$Native_Utils.eq(
+			A2(_elm_lang$core$Basics_ops['%'], n, fctr),
+			0) ? A2(_elm_lang$core$Array$push, sToPush, arr) : arr;
+	});
+var _exercism$xelm$Raindrops$raindrops = function (n) {
+	var resArr = A4(
+		_exercism$xelm$Raindrops$pushIfDivBy,
+		'Plong',
+		7,
+		n,
+		A4(
+			_exercism$xelm$Raindrops$pushIfDivBy,
+			'Plang',
+			5,
+			n,
+			A4(
+				_exercism$xelm$Raindrops$pushIfDivBy,
+				'Pling',
+				3,
+				n,
+				_elm_lang$core$Array$fromList(
+					_elm_lang$core$Native_List.fromArray(
+						[])))));
+	return _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$Array$length(resArr),
+		0) ? _elm_lang$core$Basics$toString(n) : A2(
+		_elm_lang$core$String$join,
+		'',
+		_elm_lang$core$Array$toList(resArr));
+};

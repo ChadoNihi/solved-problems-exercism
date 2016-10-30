@@ -1,0 +1,10 @@
+var _exercism$xelm$Leap$isLeapYear = function (y) {
+	return (_elm_lang$core$Native_Utils.eq(
+		A2(_elm_lang$core$Basics_ops['%'], y, 4),
+		0) && (_elm_lang$core$Basics$not(
+		_elm_lang$core$Native_Utils.eq(
+			A2(_elm_lang$core$Basics_ops['%'], y, 100),
+			0)) || _elm_lang$core$Native_Utils.eq(
+		A2(_elm_lang$core$Basics_ops['%'], y, 400),
+		0))) ? true : false;
+};

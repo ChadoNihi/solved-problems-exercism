@@ -1,0 +1,38 @@
+var _exercism$xelm$SpaceAge$earthSecPerY = 31557600;
+var _exercism$xelm$SpaceAge$jupiterSecPerY = _exercism$xelm$SpaceAge$earthSecPerY * 11.862615;
+var _exercism$xelm$SpaceAge$marsSecPerY = _exercism$xelm$SpaceAge$earthSecPerY * 1.8808158;
+var _exercism$xelm$SpaceAge$mercurySecPerY = _exercism$xelm$SpaceAge$earthSecPerY * 0.2408467;
+var _exercism$xelm$SpaceAge$neptuneSecPerY = _exercism$xelm$SpaceAge$earthSecPerY * 164.79132;
+var _exercism$xelm$SpaceAge$saturnSecPerY = _exercism$xelm$SpaceAge$earthSecPerY * 29.447498;
+var _exercism$xelm$SpaceAge$uranusSecPerY = _exercism$xelm$SpaceAge$earthSecPerY * 84.016846;
+var _exercism$xelm$SpaceAge$venusSecPerY = _exercism$xelm$SpaceAge$earthSecPerY * 0.61519726;
+var _exercism$xelm$SpaceAge$ageOn = F2(
+	function (pl, sec) {
+		var _p0 = pl;
+		switch (_p0.ctor) {
+			case 'Earth':
+				return sec / _exercism$xelm$SpaceAge$earthSecPerY;
+			case 'Jupiter':
+				return sec / _exercism$xelm$SpaceAge$jupiterSecPerY;
+			case 'Mars':
+				return sec / _exercism$xelm$SpaceAge$marsSecPerY;
+			case 'Mercury':
+				return sec / _exercism$xelm$SpaceAge$mercurySecPerY;
+			case 'Neptune':
+				return sec / _exercism$xelm$SpaceAge$neptuneSecPerY;
+			case 'Saturn':
+				return sec / _exercism$xelm$SpaceAge$saturnSecPerY;
+			case 'Uranus':
+				return sec / _exercism$xelm$SpaceAge$uranusSecPerY;
+			default:
+				return sec / _exercism$xelm$SpaceAge$venusSecPerY;
+		}
+	});
+var _exercism$xelm$SpaceAge$Neptune = {ctor: 'Neptune'};
+var _exercism$xelm$SpaceAge$Uranus = {ctor: 'Uranus'};
+var _exercism$xelm$SpaceAge$Saturn = {ctor: 'Saturn'};
+var _exercism$xelm$SpaceAge$Jupiter = {ctor: 'Jupiter'};
+var _exercism$xelm$SpaceAge$Mars = {ctor: 'Mars'};
+var _exercism$xelm$SpaceAge$Earth = {ctor: 'Earth'};
+var _exercism$xelm$SpaceAge$Venus = {ctor: 'Venus'};
+var _exercism$xelm$SpaceAge$Mercury = {ctor: 'Mercury'};

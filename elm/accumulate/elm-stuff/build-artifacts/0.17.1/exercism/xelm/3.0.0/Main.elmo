@@ -1,0 +1,78 @@
+var _exercism$xelm$Main$square = function (x) {
+	return x * x;
+};
+var _exercism$xelm$Main$tests = A2(
+	_elm_community$elm_test$Test$describe,
+	'Accumulate',
+	_elm_lang$core$Native_List.fromArray(
+		[
+			A2(
+			_elm_community$elm_test$Test$test,
+			'[]] Accumulate',
+			function (_p0) {
+				var _p1 = _p0;
+				return A2(
+					_elm_community$elm_test$Expect$equal,
+					_elm_lang$core$Native_List.fromArray(
+						[]),
+					A2(
+						_exercism$xelm$Accumulate$accumulate,
+						_exercism$xelm$Main$square,
+						_elm_lang$core$Native_List.fromArray(
+							[])));
+			}),
+			A2(
+			_elm_community$elm_test$Test$test,
+			'square Accumulate',
+			function (_p2) {
+				var _p3 = _p2;
+				return A2(
+					_elm_community$elm_test$Expect$equal,
+					_elm_lang$core$Native_List.fromArray(
+						[1, 4, 9]),
+					A2(
+						_exercism$xelm$Accumulate$accumulate,
+						_exercism$xelm$Main$square,
+						_elm_lang$core$Native_List.fromArray(
+							[1, 2, 3])));
+			}),
+			A2(
+			_elm_community$elm_test$Test$test,
+			'toUpper Accumulate',
+			function (_p4) {
+				var _p5 = _p4;
+				return A2(
+					_elm_community$elm_test$Expect$equal,
+					_elm_lang$core$Native_List.fromArray(
+						['HELLO', 'WORLD']),
+					A2(
+						_exercism$xelm$Accumulate$accumulate,
+						_elm_lang$core$String$toUpper,
+						_elm_lang$core$Native_List.fromArray(
+							['hello', 'world'])));
+			}),
+			A2(
+			_elm_community$elm_test$Test$test,
+			'reverse Accumulate',
+			function (_p6) {
+				var _p7 = _p6;
+				return A2(
+					_elm_community$elm_test$Expect$equal,
+					_elm_lang$core$Native_List.fromArray(
+						['olleh', 'dlrow']),
+					A2(
+						_exercism$xelm$Accumulate$accumulate,
+						_elm_lang$core$String$reverse,
+						_elm_lang$core$Native_List.fromArray(
+							['hello', 'world'])));
+			})
+		]));
+var _exercism$xelm$Main$emit = _elm_lang$core$Native_Platform.outgoingPort(
+	'emit',
+	function (v) {
+		return [v._0, v._1];
+	});
+var _exercism$xelm$Main$main = {
+	main: A2(_rtfeldman$node_test_runner$Test_Runner_Node$run, _exercism$xelm$Main$emit, _exercism$xelm$Main$tests),
+	flags: _elm_lang$core$Json_Decode$value
+};
