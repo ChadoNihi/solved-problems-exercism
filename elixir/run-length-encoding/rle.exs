@@ -8,8 +8,15 @@ defmodule RunLengthEncoder do
   """
   @spec encode(String.t) :: String.t
   def encode(string) do
-    42
-    #Enum.with_index()
+    if string == "" do
+      ""
+    else
+      chars = String.graphemes string
+
+      Enum.with_index(chars)
+      |> Enum.reduce(%{localCnt: 1, res: ""}, fn(chIndexTup, acc) -> encode_step(chIndexTup, acc, chars) end)
+      |> Map.get(:res)
+    end
   end
 
   @spec decode(String.t) :: String.t
@@ -21,5 +28,22 @@ defmodule RunLengthEncoder do
                   else: Map.put(acc, :res,
                                 Map.get(acc, :res) <> String.duplicate(x, Map.get(acc, :repN))) end)
     |> Map.get(:res)
+  end
+
+  defp encode_step(chIndexTup, acc, chars) do
+    if elem(chIndexTup, 0) == Enum.at(chars, elem(chIndexTup, 1)+1) do
+      Map.update!(acc, :localCnt, &(&1 + 1))
+    else
+      Map.update!(acc,
+        :res,
+        fn res -> Enum.join(
+          [
+            res,
+            Map.get(acc, :localCnt),
+            elem(chIndexTup, 0)
+          ])
+        end
+      ) |> Map.update!(:localCnt, fn _ -> 1 end)
+    end
   end
 end
