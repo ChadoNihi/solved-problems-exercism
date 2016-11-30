@@ -10,8 +10,17 @@ defmodule Prime do
     if n < 6 do
       Enum.at(fstFivePrimes, n-1)
     else
-      
+      startingCand = round(n*ln(n) + n*(ln(ln(n))-1))
+      findPrimeStartingFrom( if Integer.is_even(startingCand), do: startingCand+1, else: startingCand )
     end
   end
 
+  defp findPrimeStartingFrom(cand) do
+    
+  end
+
+  defp ln(x) do
+    :math.log10(x) * :math.log10(2.718281828459045)
+    |> round
+  end
 end
