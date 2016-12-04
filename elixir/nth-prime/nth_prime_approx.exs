@@ -9,17 +9,6 @@ defmodule Prime do
   def nth(n) when n <=0 do
     raise "invalid number"
   end
-  def nth(1), do: 2
-  def nth(n) do
-    upTo = Float.ceil(n*:math.log(n) + n*(:math.log(:math.log(n))))
-
-  end
-
-
-
-  def nth(n) when n <=0 do
-    raise "invalid number"
-  end
   def nth(n) do
     if n < 7 do
       Enum.at(@fstFivePrimes, n-1)
