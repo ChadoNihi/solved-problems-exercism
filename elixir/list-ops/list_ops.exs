@@ -15,11 +15,22 @@ defmodule ListOps do
 
   @spec reverse(list) :: list
   def reverse([]), do: []
-  def reverse([h | t]) when count(t) < 1000 do
-    reverse(t) ++ [h]
-  end
   def reverse(l) do
-    
+    if count(l) <= 1000 do
+      reverse_rec(l)
+    else
+      reverse_iter(l)
+    end
+  end
+  defp reverse_rec([]), do: []
+  defp reverse_rec([h | t]) do
+    reverse_rec(t) ++ [h]
+  end
+
+  defp reverse_iter(l) do
+    last_i = Enu.count(l)-1
+    Range.new(0, last_i)
+    |> Enum.reduce([], fn(i, acc) -> acc++[Enum.at(l, last_i-i)] end)
   end
 
   @spec map(list, (any -> any)) :: list
