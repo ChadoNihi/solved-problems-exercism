@@ -15,43 +15,38 @@ defmodule ListOps do
 
   @spec reverse(list) :: list
   def reverse([]), do: []
-  def reverse(l) do
-    if count(l) <= 1000 do
-      reverse_rec(l)
-    else
-      reverse_iter(l)
-    end
-  end
-  defp reverse_rec([]), do: []
-  defp reverse_rec([h | t]) do
-    reverse_rec(t) ++ [h]
-  end
+  def reverse(l), do: do_reverse(list, [])
 
-  defp reverse_iter(l) do
-    last_i = Enu.count(l)-1
-    Range.new(0, last_i)
-    |> Enum.reduce([], fn(i, acc) -> acc++[Enum.at(l, last_i-i)] end)
-  end
+  defp do_reverse([], acc), do: acc
+  defp do_reverse([h | t], acc), do: do_reverse(t, [h | acc])
 
   @spec map(list, (any -> any)) :: list
-  def map(l, f) do
-
+  def map([], _), do: []
+  def map([h | t], f) do
+    [f.(h) | map(t, f)]
   end
 
   @spec filter(list, (any -> as_boolean(term))) :: list
-  def filter(l, f) do
-
+  def filter([], _), do: []
+  def filter([h | t], f) do
+    if f.(h) do
+      [h | filter(t, f)]
+    else
+      filter(t, f)
+    end
   end
 
   @type acc :: any
   @spec reduce(list, acc, ((any, acc) -> acc)) :: acc
-  def reduce(l, acc, f) do
-
+  def reduce([], acc, _), do: acc
+  def reduce([h | t], acc, f) do
+    reduce(t, f.(h, acc), f)
   end
 
   @spec append(list, list) :: list
-  def append(a, b) do
-
+  def append(a, []), do: a
+  def append(a, [h2 | t2]) do
+    #[a | [h2 | append()]]
   end
 
   @spec concat([[any]]) :: [any]
