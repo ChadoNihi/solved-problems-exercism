@@ -15,7 +15,7 @@ defmodule ListOps do
 
   @spec reverse(list) :: list
   def reverse([]), do: []
-  def reverse(l), do: do_reverse(list, [])
+  def reverse(l), do: do_reverse(l, [])
 
   defp do_reverse([], acc), do: acc
   defp do_reverse([h | t], acc), do: do_reverse(t, [h | acc])
@@ -44,13 +44,15 @@ defmodule ListOps do
   end
 
   @spec append(list, list) :: list
-  def append(a, []), do: a
-  def append(a, [h2 | t2]) do
-    #[a | [h2 | append()]]
-  end
+  def append([], []), do: []
+  def append([], [h | t]), do: [h | append([], t)]
+  def append([h | t], b), do: [h | append(t, b)]
 
   @spec concat([[any]]) :: [any]
   def concat(ll) do
-
+    reduce(ll, [], fn(l, acc) ->
+      reduce(l, acc, &([&1 | &2]))
+    end)
+    |> reverse
   end
 end
