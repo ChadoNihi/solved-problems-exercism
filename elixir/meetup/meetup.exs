@@ -22,9 +22,37 @@ defmodule Meetup do
   end
 
   defp get_date(year, month, weekday, schedule) do
-    fst_month_day = Date.new(year, month, 1)
+    month_fst_weekday = Date.new(year, month, 1)
     |> Date.day_of_week
 
-    fst_month_day 
+    weekday_num = weekday_to_num(weekday)
+    weekday_fst_date =
+      (if weekday_num < month_fst_weekday, do: weekday_num+8, else: weekday_num+1) - month_fst_weekday
+
+    weekday_fst_date + 7*schedule_to_multiplier(schedule, month, month_fst_weekday, weekday_num)
+  end
+
+  defp weekday_to_num(weekday) do
+
+  end
+
+  defp schedule_to_multiplier(schedule, month, month_fst_weekday, weekday_num) do
+    case schedule do
+      :first ->
+        0
+      :second ->
+        1
+      :third ->
+        2
+      :fourth ->
+        3
+      :last ->
+        if month  do
+
+        end
+      :teenth ->
+        diff = month_fst_weekday - weekday_num
+        if diff > 0 and diff < 3, do: 1, else: 2
+    end
   end
 end
