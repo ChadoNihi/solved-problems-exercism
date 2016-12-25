@@ -23,6 +23,7 @@ defmodule Meetup do
 
   defp get_date(year, month, weekday, schedule) do
     month_fst_weekday = Date.new(year, month, 1)
+    |> elem(1)
     |> Date.day_of_week
 
     weekday_num = weekday_to_num(weekday)
@@ -33,7 +34,15 @@ defmodule Meetup do
   end
 
   defp weekday_to_num(weekday) do
-
+    case weekday do
+      :monday -> 1
+      :tuesday -> 2
+      :wednesday -> 3
+      :thursday -> 4
+      :friday -> 5
+      :saturday -> 6
+      :sunday -> 7
+    end
   end
 
   defp schedule_to_multiplier(schedule, month, month_fst_weekday, weekday_num) do
