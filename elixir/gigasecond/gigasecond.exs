@@ -6,6 +6,12 @@ defmodule Gigasecond do
 
   @gigasec 1000000000
   def from({{year, month, day}, {hours, minutes, seconds}}) do
-    @gigasec / 365
+    y = Float.floor(@gigasec / 364.25) |> round
+    m = (@gigasec / 364.25 - y)*12 |> Float.floor |> &+.(1) |> round
+    d = ((@gigasec / 364.25 - y)*12 - m) * days_in(m, y)
+  end
+
+  defp days_in(m, y) do
+    
   end
 end
