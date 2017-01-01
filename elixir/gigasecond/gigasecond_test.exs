@@ -25,8 +25,7 @@ defmodule GigasecondTest do
 
   # @tag :pending
   test "yourself" do
-    customize these values for yourself
     your_birthday = {{1992, 12, 16}, {0, 0, 0}}
-    assert Gigasecond.from(your_birthday) == {{year2, month2, day2}, {hours, minutes, seconds}}
+    assert Gigasecond.from(your_birthday) == {{2024, 8, 24}, {1, 46, 40}}
   end
 end
