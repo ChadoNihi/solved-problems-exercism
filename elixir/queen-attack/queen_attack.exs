@@ -37,6 +37,9 @@ defmodule Queens do
   """
   @spec can_attack?(Queens.t()) :: boolean
   def can_attack?(queens) do
+    {r_b, c_b} = queens.black
+    {r_w, c_w} = queens.white
 
+    r_b === r_w or c_b === c_w or abs(r_b-r_w) === abs(c_b-c_w)
   end
 end
