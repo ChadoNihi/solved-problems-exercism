@@ -18,7 +18,8 @@ defmodule Matrix do
   @spec columns(String.t()) :: [[integer]]
   def columns(str) do
     rows(str)
-    |> Enum.reduce(fn(row) ->  end)
+    |> List.zip
+    |> Enum.map(&(Tuple.to_list(&1)))
   end
 
   @doc """
@@ -27,6 +28,11 @@ defmodule Matrix do
   """
   @spec saddle_points(String.t()) :: [{integer, integer}]
   def saddle_points(str) do
+    check_point(row(str), 0, 0)
 
+
+    rows(str)
+    |> Enum.reduce([], fn(row, ) -> ... end)
+    # to_check = Enum.map(matrix, fn(r) -> Enum.map(r, fn(_x) -> true end) end)
   end
 end
