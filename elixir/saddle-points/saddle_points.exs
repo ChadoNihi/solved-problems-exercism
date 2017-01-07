@@ -1,4 +1,6 @@
 defmodule Matrix do
+  @min -99999999
+  @max 99999999
   @doc """
   Parses a string representation of a matrix
   to a list of rows
@@ -46,16 +48,16 @@ defmodule Matrix do
         prev_r = max(r-1, 0)
         prev_c = max(c-1, 0)
 
-        valid_row = curr_val >= 2d_at(rows, r, prev_c) and curr_val >= 2d_at(rows, r, c+1)
-        valid_col = curr_val <= 2d_at(rows, prev_r, c) and curr_val <= 2d_at(rows, r+1, c)
+        valid_row = curr_val >= twod_at(rows, r, prev_c, @min) and curr_val >= twod_at(rows, r, c+1, @min)
+        valid_col = curr_val <= twod_at(rows, prev_r, c, @max) and curr_val <= twod_at(rows, r+1, c, @max)
 
         if valid_row and valid_col do
-          check_point(rows, r, c+1, skip_on_curr_row, [true | skip_on_next_row], [{r,c} | spoints], till_r, till_c)
+          check_point(rows, r, c+2, skip_on_curr_row, [false | [true | skip_on_next_row]], [{r,c} | spoints], till_r, till_c)
         else
           check_point(rows, r, c+1, skip_on_curr_row, [false | skip_on_next_row], spoints, till_r, till_c)
         end
     end
   end
 
-  defp 2d_at(arr, r, c), do: Enum.at(arr, r, []) |> Enum.at(arr, c, )
+  defp twod_at(arr, r, c, default), do: Enum.at(arr, r, []) |> Enum.at(c, default)
 end
