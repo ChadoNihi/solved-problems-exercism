@@ -1,5 +1,4 @@
 defmodule Matrix do
-  @min -99999999
   @max 99999999
   @doc """
   Parses a string representation of a matrix
@@ -32,32 +31,41 @@ defmodule Matrix do
   def saddle_points(str) do
     rs = rows(str)
     till_c = Enum.count( Enum.at(rs, 0) )
-    check_point(rs, 0, 0, List.duplicate(false, till_c), [], [], Enum.count(rs), till_c)
+    check_point(rs, columns(str), 0, 0, %{}, [], Enum.count(rs), till_c)
+    |> Enum.reverse
   end
 
-  defp check_point(rows, r, c, skip_on_curr_row, skip_on_next_row, spoints, till_r, till_c) do
+  defp check_point(rows, cols, r, c, to_skip, spoints, till_r, till_c) do
     cond do
-      Enum.at(skip_on_curr_row, c) ->
-        check_point(rows, r, c+1, skip_on_curr_row, [false | skip_on_next_row], spoints, till_r, till_c)
+      Map.has_key?(to_skip, {r,c}) ->
+        check_point(rows, cols, r, c+1, to_skip, spoints, till_r, till_c)
       r >= till_r ->
         spoints
       c >= till_c ->
-        check_point(rows, r+1, 0, Enum.reverse(skip_on_next_row), [], spoints, till_r, till_c)
+        check_point(rows, cols, r+1, 0, to_skip, spoints, till_r, till_c)
       true ->
-        curr_val = Enum.at(rows, r) |> Enum.at(c)
-        prev_r = max(r-1, 0)
-        prev_c = max(c-1, 0)
+        row = Enum.at(rows, r)
+        col = Enum.at(cols, c)
+        curr_val = Enum.at(row, c)
 
-        valid_row = curr_val >= twod_at(rows, r, prev_c, @min) and curr_val >= twod_at(rows, r, c+1, @min)
-        valid_col = curr_val <= twod_at(rows, prev_r, c, @max) and curr_val <= twod_at(rows, r+1, c, @max)
+        valid_row = Enum.all?(row, &(&1<=curr_val))
+        valid_col = Enum.all?(col, &(&1>=curr_val))
 
         if valid_row and valid_col do
-          check_point(rows, r, c+2, skip_on_curr_row, [false | [true | skip_on_next_row]], [{r,c} | spoints], till_r, till_c)
+          check_point(rows, cols, r+1, 0, update_to_skip(to_skip, rows, curr_val, r, c, till_r-1), [{r,c} | spoints], till_r, till_c)
         else
-          check_point(rows, r, c+1, skip_on_curr_row, [false | skip_on_next_row], spoints, till_r, till_c)
+          check_point(rows, cols, r, c+1, to_skip, spoints, till_r, till_c)
         end
     end
   end
 
-  defp twod_at(arr, r, c, default), do: Enum.at(arr, r, []) |> Enum.at(c, default)
+  defp update_to_skip(to_skip, rows, curr_val, r, c, max_r) do
+    Enum.reduce((r+1)..max_r, to_skip, fn(r, to_skip) ->
+      if curr_val > Enum.at(rows, r, []) |> Enum.at(c, @max) do
+        Map.put(to_skip, {r,c}, true)
+      else
+        to_skip
+      end
+    end)
+  end
 end
