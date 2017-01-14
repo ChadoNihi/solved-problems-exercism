@@ -9,16 +9,17 @@ defmodule PrimeFactors do
   """
   @spec factors_for(pos_integer) :: [pos_integer]
   def factors_for(number) do
-    Enum.reduce_while(primes_up_to(:math.sqrt(number) |> round), %{fs: [], num: number}, fn(pr, acc) ->
+    Enum.reduce_while(primes_up_to(number |> round), %{fs: [], num: number}, fn(pr, acc) ->
       {prs, num} = process_cand_fc(pr, number)
       if num === 1 do
-        {:halt, Enum.concat(Map.get(acc, :fs), prs)}
+        {:halt, Map.update!(acc, :fs, &(Enum.concat(&1, prs)))}
       else
         {:cont, Map.update!(acc, :fs, &(Enum.concat(&1, prs)))
           |> Map.put(:num, num)
         }
       end
     end)
+    |> Map.get(:fs)
   end
 
   defp process_cand_fc(pr, num, prs \\ []) do
