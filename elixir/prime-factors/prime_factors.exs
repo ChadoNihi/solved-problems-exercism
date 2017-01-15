@@ -30,26 +30,38 @@ defmodule PrimeFactors do
     end
   end
 
-  defp primes_up_to(max) do
-    primes_up_to(max, [2], 3)
+  def primes_to(limit) do
+    sieve_step(%{}, 2, limit)
+    |> Enum.reduce([], fn({num, is_prime}, primes) -> if is_prime, do: [num | primes], else: primes end)
+    |> Enum.sort
   end
-  defp primes_up_to(max, _, _) when max < 2, do: []
-  defp primes_up_to(max, prs, cand) when max < cand, do: Enum.reverse(prs)
-  defp primes_up_to(max, prs, cand) do
-    if is_prime(cand) do
-      primes_up_to(max, [cand | prs], cand+2)
+
+  defp sieve_step(primes, prime, limit) do
+    primes = Map.put(primes, prime, true)
+    |> mark_multiples(prime, limit)
+
+    next_prime = find_next_prime(primes, prime)
+
+    if next_prime > limit do
+      primes
     else
-      primes_up_to(max, prs, cand+2)
+      sieve_step(primes, next_prime, limit)
     end
   end
 
-  defp is_prime(x), do: is_prime(x, 3, Float.floor(:math.sqrt(x)))
-  defp is_prime(_, cand_factor, till) when cand_factor > till, do: true
-  defp is_prime(x, cand_factor, till) do
-    if rem(x, cand_factor) == 0 do
-      false
+  defp mark_multiples(primes, prime, limit), do: mark_multiples(primes, prime, prime+prime, limit)
+  defp mark_multiples(primes, _prime, curr, limit) when curr > limit, do: primes
+  defp mark_multiples(primes, prime, curr, limit) do
+    mark_multiples(Map.put(primes, curr, false), prime, curr+prime, limit)
+  end
+
+  defp find_next_prime(_primes, 2), do: 3
+  defp find_next_prime(primes, key) do
+    next_key = key+2
+    if Map.get(primes, next_key, true) do
+      next_key
     else
-      is_prime(x, cand_factor+2, till)
+      find_next_prime(primes, next_key)
     end
   end
 end

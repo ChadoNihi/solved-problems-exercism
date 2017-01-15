@@ -58,12 +58,12 @@ defmodule PrimeFactorsTest do
     assert PrimeFactors.factors_for(901255) == [5, 17, 23, 461]
   end
 
-  @tag :pending
+  # @tag :pending
   test "93819012551" do
     assert PrimeFactors.factors_for(93819012551) == [11, 9539, 894119]
   end
 
-  @tag :pending
+  # @tag :pending
   # @tag timeout: 2000
   #
   # The timeout tag above will set the below test to fail unless it completes
