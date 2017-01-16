@@ -8,16 +8,20 @@ defmodule Wordy do
     nums = Regex.scan(~r/(-?\d+)/i, question)
     |> Enum.map(fn([_, cptr]) -> String.to_integer(cptr) end)
 
-    ops = Regex.scan(~r/(plus|minus|multipl|divid)/i, question)
+    ops = Regex.scan(~r/(plus|minus|multipl|divid|power)/i, question)
     |> Enum.map(fn([_, cptr]) -> to_op(cptr) end)
 
-    if Enum.empty?(nums) or Enum.empty?(ops) do
-      raise ArgumentError
-    else
-      Enum.reduce(tl(nums) |> Enum.zip(ops), hd(nums), fn({right_num, op}, acc) ->
-        apply(Kernel, String.to_existing_atom(op), [acc, right_num])
-      end)
-      |> round
+    cond do
+      Enum.empty?(nums) or Enum.empty?(ops) ->
+        raise ArgumentError
+      hd(ops) == "pow" or Enum.at(ops, 1) == "pow" ->
+        res = :math.pow(hd(nums), (if hd(ops) == "-", do: -(Enum.at(nums, 1)), else: Enum.at(nums, 1)))
+        if res >= 1 or res === 0.0, do: round(res), else: res
+      true ->
+        Enum.reduce(tl(nums) |> Enum.zip(ops), hd(nums), fn({right_num, op}, acc) ->
+          apply(Kernel, String.to_existing_atom(op), [acc, right_num])
+        end)
+        |> round
     end
   end
 

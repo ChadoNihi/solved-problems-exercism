@@ -90,4 +90,19 @@ defmodule WordyTest do
       Wordy.answer("Who is the President of the United States?")
     end
   end
+
+  # @tag :pending
+  test "power operation" do
+    assert Wordy.answer("What is 2 raised to the 5th power?") == 32
+  end
+
+  # @tag :pending
+  test "negative power operation" do
+    assert Wordy.answer("What is 2 raised to the minus 5th power?") == 0.03125
+  end
+
+  # @tag :pending
+  test "negative power operation alt" do
+    assert Wordy.answer("What is 4 raised to the -2th power?") == 0.0625
+  end
 end
