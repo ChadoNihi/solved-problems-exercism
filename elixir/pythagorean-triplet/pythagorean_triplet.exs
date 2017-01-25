@@ -28,7 +28,20 @@ defmodule Triplet do
   Generates a list of pythagorean triplets from a given min (or 1 if no min) to a given max.
   """
   @spec generate(non_neg_integer, non_neg_integer) :: [list(non_neg_integer)]
+  def generate(min, max) when min > max, do: []
   def generate(min, max) do
+    Enum.reduce(min..max, [], fn(x, triplets) ->
+      xx = x*x
+      y = x+1
+      z = y+1
+
+      triplet = triplet_step(x, y, z, xx, max)
+
+      if Enum.empty?(triplet), do: triplets, else: [triplet | triplets]
+    end)
+  end
+
+  defp triplet_step(x, y, z, xx, max) do
 
   end
 
