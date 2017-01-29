@@ -4,11 +4,15 @@ defmodule RailFenceCipher do
   """
   @spec encode(String.t, pos_integer) :: String.t
   def encode(str, rails) do
-    String.graphemes(str)
+    rows_map = String.graphemes(str)
     |> Enum.with_index
     |> List.foldr(%{}, fn({gr, i}, rows) ->
-      Map.update(rows, rem(i, rails), [gr], fn(row) -> [gr | row] end)
+      Map.update(rows, rem(i, rails*2 - 2), [gr], fn(row) -> [gr | row] end)
     end)
+
+    Enum.map(0..(rails-1), &(rows_map[&1]))
+    |> List.flatten
+    |> Enum.join
   end
 
   @doc """

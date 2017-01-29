@@ -16,7 +16,7 @@ W . . . E . . . C . . . R . . . L . . . T . . . E
 . E . R . D . S . O . E . E . F . E . A . O . C .
 . . A . . . I . . . V . . . D . . . E . . . N . .
 ```
-
+3 - 4   4 - 6   5 - 8
 Then reads off:
 ```
 WECRLTEERDSOEEFEAOCAIVDEN
@@ -96,4 +96,3 @@ Wikipedia [https://en.wikipedia.org/wiki/Transposition_cipher#Rail_Fence_cipher]
 
 ## Submitting Incomplete Problems
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-
