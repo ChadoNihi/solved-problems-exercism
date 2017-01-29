@@ -6,7 +6,9 @@ defmodule RailFenceCipher do
   def encode(str, rails) do
     String.graphemes(str)
     |> Enum.with_index
-    |> Enum.reduce()
+    |> List.foldr(%{}, fn({gr, i}, rows) ->
+      Map.update(rows, rem(i, rails), [gr], fn(row) -> [gr | row] end)
+    end)
   end
 
   @doc """
