@@ -16,7 +16,7 @@ W . . . E . . . C . . . R . . . L . . . T . . . E
 . E . R . D . S . O . E . E . F . E . A . O . C .
 . . A . . . I . . . V . . . D . . . E . . . N . .
 ```
-3 - 4   4 - 6   5 - 8
+3 - 4   4 - 6   5 - 8   6 - 10
 Then reads off:
 ```
 WECRLTEERDSOEEFEAOCAIVDEN

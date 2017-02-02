@@ -5,22 +5,34 @@ defmodule RailFenceCipher do
   """
   @spec encode(String.t, pos_integer) :: String.t
   def encode(str, rails) do
-    rows_map = String.graphemes(str)
-    |> Enum.with_index
-    |> IO.inspect
-    |> List.foldr(%{}, fn({gr, i}, rows) ->
-      Map.update(
-        rows,
-        (if rem(i, rails) == 0 and Integer.is_odd(div(i, rails)), do: rails - rem(i, rails)-1, else: rem(i, rails)),
-        [gr],
-        fn(row) -> [gr | row] end
-      )
-    end)
+    letters = String.graphemes(str)
 
-    Enum.map(0..(rails-1), &(rows_map[&1]))
-    |> IO.inspect
+    Enum.reduce((rails-1)..0, [], fn(r, rows) -> [make_row(r, rails, letters) | rows] end)
     |> List.flatten
     |> Enum.join
+
+    # {rows_map, _} = String.graphemes(str)
+    # |> Enum.with_index
+    # |> Enum.reduce({%{}, true}, fn({gr, i}, {rows, is_down}) ->
+    #   r = rem(i-div(i+1,rails), rails)
+    #   {Map.update(
+    #     rows,
+    #     (if is_down, do: r, else: rails - r - 1),
+    #     [gr],
+    #     fn(row) -> row++[gr] end
+    #   ), (if i > 0 and (r == 0 or r == rails-1), do: !is_down, else: is_down)}
+    # end)
+    #
+    # Enum.map(0..(rails-1), &(rows_map[&1]))
+    # |> IO.inspect
+    # |> List.flatten
+    # |> Enum.join
+  end
+
+  defp make_row(r, rails, letters) do
+    step = rails + (rails-1)*2 - (if r > div(rails, 2), do: rails-r-1, else: r) * 2
+    Enum.drop(letters, r)
+    |> Enum.take_every(step)
   end
 
   @doc """
