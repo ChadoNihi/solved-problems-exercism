@@ -29,8 +29,9 @@ defmodule RailFenceCipher do
     # |> Enum.join
   end
 
+  defp make_row(_, 1, letters), do: letters
   defp make_row(r, rails, letters) do
-    step = rails + (rails-1)*2 - (if r > div(rails, 2), do: rails-r-1, else: r) * 2
+    step = (rails-1)*2 - (if r > div(rails-1, 2), do: rails-r-1, else: r) * 2
     Enum.drop(letters, r)
     |> Enum.take_every(step)
   end
