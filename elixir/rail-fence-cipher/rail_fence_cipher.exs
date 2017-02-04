@@ -26,18 +26,18 @@ defmodule RailFenceCipher do
     |> Enum.join
   end
 
-  defp make_row(_, 1, letters), do: letters
-  defp make_row(r, rails, letters) do
-    step = (rails-1)*2 - (if r > div(rails-1, 2), do: rails-r-1, else: r) * 2
-    Enum.drop(letters, r)
-    |> Enum.take_every(step)
-  end
-
   @doc """
   Decode a given rail fence ciphertext to the corresponding plaintext
   """
   @spec decode(String.t, pos_integer) :: String.t
+  def decode(str, 1), do: str
   def decode(str, rails) do
-
+    Enum.reduce(get_row_sizes, {[], String.graphemes(str)}, fn(r_sz, {rows, chars_left}) ->
+      {row, left} = Enum.split(chars_left, r_sz)
+      {
+        [row | rows],
+        left
+      }
+    end)
   end
 end
