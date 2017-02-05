@@ -32,12 +32,17 @@ defmodule RailFenceCipher do
   @spec decode(String.t, pos_integer) :: String.t
   def decode(str, 1), do: str
   def decode(str, rails) do
-    Enum.reduce(get_row_sizes, {[], String.graphemes(str)}, fn(r_sz, {rows, chars_left}) ->
+    chars = String.graphemes(str)
+    List.foldr(get_row_sizes(chars, rails), {[], chars}, fn(r_sz, {rows, chars_left}) ->
       {row, left} = Enum.split(chars_left, r_sz)
       {
         [row | rows],
         left
       }
     end)
+  end
+
+  defp get_row_sizes(chars, rails) do
+    
   end
 end
