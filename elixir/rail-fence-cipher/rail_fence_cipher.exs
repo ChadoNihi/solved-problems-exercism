@@ -40,8 +40,9 @@ defmodule RailFenceCipher do
         left
       }
     end)
+    |> elem(0)
 
-    decode_from_rows(enc_rows, 0)
+    decode_from_rows(enc_rows, 0, rails-1)
   end
 
   defp get_row_sizes(chars, rails) do
@@ -51,5 +52,28 @@ defmodule RailFenceCipher do
     |> Enum.reduce(%{}, fn(r, freqs) -> Map.update(freqs, r, 1, &(&1+1)) end)
 
     Enum.map(0..rails-1, fn(r) -> freqs[r] end)
+  end
+
+  defp decode_from_rows(enc_rows, r, max_r) do
+    enc_rows_left = Enum.reduce(enc_rows, {%{}, 0}, fn(row, {r_to_row, r}) ->
+      {Map.put(r_to_row, r, row), r+1}
+    end)
+    |> elem(0)
+
+    decode_from_rows(enc_rows_left, r, max_r, 1, [])
+  end
+  defp decode_from_rows(enc_rows_left, r, max_r, step, acc) do
+    if Enum.empty?(enc_rows_left[r]) do
+      Enum.reverse(acc) |> Enum.join
+    else
+      curr_r_step = (if r === 0 or r === max_r, do: -step, else: step)
+      decode_from_rows(
+        Map.update!(enc_rows_left, r, &(tl(&1))),
+        r + curr_r_step,
+        max_r,
+        curr_r_step,
+        [hd(enc_rows_left[r]) | acc]
+      )
+    end
   end
 end
