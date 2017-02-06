@@ -33,16 +33,23 @@ defmodule RailFenceCipher do
   def decode(str, 1), do: str
   def decode(str, rails) do
     chars = String.graphemes(str)
-    List.foldr(get_row_sizes(chars, rails), {[], chars}, fn(r_sz, {rows, chars_left}) ->
+    enc_rows = List.foldr(get_row_sizes(chars, rails), {[], chars}, fn(r_sz, {rows, chars_left}) ->
       {row, left} = Enum.split(chars_left, r_sz)
       {
         [row | rows],
         left
       }
     end)
+
+    decode_from_rows(enc_rows, 0)
   end
 
   defp get_row_sizes(chars, rails) do
-    
+    freqs = Enum.to_list(0..rails-1) ++ Enum.to_list(rails-2..1)
+    |> Stream.cycle
+    |> Enum.take(Enum.count(chars))
+    |> Enum.reduce(%{}, fn(r, freqs) -> Map.update(freqs, r, 1, &(&1+1)) end)
+
+    Enum.map(0..rails-1, fn(r) -> freqs[r] end)
   end
 end
