@@ -33,7 +33,7 @@ defmodule RailFenceCipher do
   def decode(str, 1), do: str
   def decode(str, rails) do
     chars = String.graphemes(str)
-    enc_rows = List.foldr(get_row_sizes(chars, rails), {[], chars}, fn(r_sz, {rows, chars_left}) ->
+    enc_rows = Enum.reduce(get_row_sizes(chars, rails), {[], chars}, fn(r_sz, {rows, chars_left}) ->
       {row, left} = Enum.split(chars_left, r_sz)
       {
         [row | rows],
@@ -41,6 +41,7 @@ defmodule RailFenceCipher do
       }
     end)
     |> elem(0)
+    |> Enum.reverse
 
     decode_from_rows(enc_rows, 0, rails-1)
   end
@@ -60,7 +61,7 @@ defmodule RailFenceCipher do
     end)
     |> elem(0)
 
-    decode_from_rows(enc_rows_left, r, max_r, 1, [])
+    decode_from_rows(enc_rows_left, r, max_r, -1, [])
   end
   defp decode_from_rows(enc_rows_left, r, max_r, step, acc) do
     if Enum.empty?(enc_rows_left[r]) do
