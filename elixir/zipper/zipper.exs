@@ -23,15 +23,24 @@ defmodule BinTree do
 end
 
 defmodule Zipper do
-  defstruct focus_i: 0, nodes: {}
+  defstruct focus_i: 0, values: {}
   @doc """
   Get a zipper focused on the root node.
   """
   @spec from_tree(BT.t) :: Z.t
   def from_tree(bt) do
-    from_tree(bt, )
+    vals = bf_vals(bt, )
+    %Zipper{focus_i: 0, values: vals}
   end
-  def from_tree({left: l, right: r}, ) when !l and !r, do: 
+  def from_tree({left: l, right: r}, z) when !l and !r, do: z
+  def from_tree({value: v}, ) do
+    from_tree
+  end
+
+  defp bf_vals({left: l, right: r}, q) when !l and !r, do: q
+  defp bf_vals(bt, q) do
+
+  end
 
   @doc """
   Get the complete tree from a zipper.
