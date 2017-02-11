@@ -35,7 +35,12 @@ defmodule Zipper do
     %Zipper{focus_i: 0, values: vals}
   end
 
-  defp bf_vals(q), do: bf_vals(q, %{}, 0)
+  defp bf_vals(q) do
+    {root, q} = :queue.out(q)
+    q = :queue.in(root, q)
+
+    bf_vals(q, %{0: root.value}, 0)
+  end
   defp bf_vals(q, vals, i) do
     if :queue.is_empty(q) do
       vals
@@ -45,11 +50,10 @@ defmodule Zipper do
       r = node.right
       q = :queue.in(l, q)
       q = :queue.in(r, q)
-      vals = Map.put(i, node.value)
-      |> Map.put(i+1, l.value)
-      |> Map.put(i+2, r.value)
-      
-      bf_vals(q, vals, i+3)
+      vals = Map.put(vals, 2*i+1, l.value)
+      |> Map.put(2*i+2, r.value)
+
+      bf_vals(q, vals, i+1)
     end
   end
 
@@ -65,6 +69,7 @@ defmodule Zipper do
   """
   @spec value(Z.t) :: any
   def value(z) do
+    z.values[z.focus]
   end
 
   @doc """
