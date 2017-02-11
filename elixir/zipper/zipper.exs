@@ -39,7 +39,7 @@ defmodule Zipper do
     {root, q} = :queue.out(q)
     q = :queue.in(root, q)
 
-    bf_vals(q, %{0: root.value}, 0)
+    bf_vals(q, %{0 => root.value}, 0)
   end
   defp bf_vals(q, vals, i) do
     if :queue.is_empty(q) do
@@ -77,6 +77,7 @@ defmodule Zipper do
   """
   @spec left(Z.t) :: Z.t | nil
   def left(z) do
+    set_focus(z, z.focus*2+1)
   end
 
   @doc """
@@ -84,13 +85,19 @@ defmodule Zipper do
   """
   @spec right(Z.t) :: Z.t | nil
   def right(z) do
+    set_focus(z, z.focus*2+2)
   end
 
   @doc """
   Get the parent of the focus node, if any.
   """
-  @spec up(Z.t) :: Z.t
+  @spec up(Z.t) :: Z.t | nil
   def up(z) do
+    if z.focus > 0, do: set_focus(z, div(z.focus-1, 2))
+  end
+
+  defp set_focus(z, i) do
+    if z.values[i], do: Map.put(z, :focus, i)
   end
 
   @doc """
