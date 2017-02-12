@@ -36,7 +36,7 @@ defmodule Zipper do
   end
 
   defp bf_vals(q) do
-    {root, q} = :queue.out(q)
+    {{_, root}, q} = :queue.out(q)
     q = :queue.in(root, q)
 
     bf_vals(q, %{0 => root.value}, 0)
@@ -45,13 +45,18 @@ defmodule Zipper do
     if :queue.is_empty(q) do
       vals
     else
-      {node, q} = :queue.out(q)
-      l = node.left
-      r = node.right
-      q = :queue.in(l, q)
-      q = :queue.in(r, q)
-      vals = Map.put(vals, 2*i+1, l.value)
-      |> Map.put(2*i+2, r.value)
+      {{_, node}, q} = :queue.out(q)
+      {q, vals} = if node do
+        l = node.left
+        r = node.right
+        q = :queue.in(l, q)
+        q = :queue.in(r, q)
+        vals = Map.put(vals, 2*i+1, (if l, do: l.value, else: nil))
+        |> Map.put(2*i+2, (if r, do: r.value, else: nil))
+        {q, vals}
+      else
+        {q, vals}
+      end
 
       bf_vals(q, vals, i+1)
     end
@@ -62,6 +67,7 @@ defmodule Zipper do
   """
   @spec to_tree(Z.t) :: BT.t
   def to_tree(z) do
+    to_tree(z, )
   end
 
   @doc """
@@ -69,7 +75,7 @@ defmodule Zipper do
   """
   @spec value(Z.t) :: any
   def value(z) do
-    z.values[z.focus]
+    z.values[z.focus_i]
   end
 
   @doc """
@@ -77,7 +83,7 @@ defmodule Zipper do
   """
   @spec left(Z.t) :: Z.t | nil
   def left(z) do
-    set_focus(z, z.focus*2+1)
+    set_focus(z, z.focus_i*2+1)
   end
 
   @doc """
@@ -85,7 +91,7 @@ defmodule Zipper do
   """
   @spec right(Z.t) :: Z.t | nil
   def right(z) do
-    set_focus(z, z.focus*2+2)
+    set_focus(z, z.focus_i*2+2)
   end
 
   @doc """
@@ -93,11 +99,11 @@ defmodule Zipper do
   """
   @spec up(Z.t) :: Z.t | nil
   def up(z) do
-    if z.focus > 0, do: set_focus(z, div(z.focus-1, 2))
+    if z.focus > 0, do: set_focus(z, div(z.focus_i-1, 2))
   end
 
   defp set_focus(z, i) do
-    if z.values[i], do: Map.put(z, :focus, i)
+    if z.values[i], do: Map.put(z, :focus_i, i)
   end
 
   @doc """
@@ -105,6 +111,7 @@ defmodule Zipper do
   """
   @spec set_value(Z.t, any) :: Z.t
   def set_value(z, v) do
+    Map.put(z, :values, Map.put(z.values, z.focus_i, v))
   end
 
   @doc """
@@ -112,6 +119,7 @@ defmodule Zipper do
   """
   @spec set_left(Z.t, BT.t) :: Z.t
   def set_left(z, l) do
+    Map.put(z, :values, Map.put(z.values, z.focus_i*2+1, v))
   end
 
   @doc """
@@ -119,5 +127,6 @@ defmodule Zipper do
   """
   @spec set_right(Z.t, BT.t) :: Z.t
   def set_right(z, r) do
+    Map.put(z, :values, Map.put(z.values, z.focus_i*2+2, v))
   end
 end
