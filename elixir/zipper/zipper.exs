@@ -67,7 +67,16 @@ defmodule Zipper do
   """
   @spec to_tree(Z.t) :: BT.t
   def to_tree(z) do
-    to_tree(z, )
+    to_tree_recur(  (if z.focus_i != 0, do: set_focus(z, 0), else: z)  )
+  end
+
+  defp to_tree_recur(z) do
+    val = value(z)
+    unless value(z) do
+      nil
+    else
+      %BinTree{ value: val, left: to_tree_recur(left(z)), right: to_tree_recur(right(z)) }
+    end
   end
 
   @doc """
@@ -75,7 +84,7 @@ defmodule Zipper do
   """
   @spec value(Z.t) :: any
   def value(z) do
-    z.values[z.focus_i]
+    z && z.values[z.focus_i]
   end
 
   @doc """
@@ -103,7 +112,7 @@ defmodule Zipper do
   end
 
   defp set_focus(z, i) do
-    if z.values[i], do: Map.put(z, :focus_i, i)
+    if z.values[i] || i === 0, do: Map.put(z, :focus_i, i)
   end
 
   @doc """
@@ -119,7 +128,7 @@ defmodule Zipper do
   """
   @spec set_left(Z.t, BT.t) :: Z.t
   def set_left(z, l) do
-    Map.put(z, :values, Map.put(z.values, z.focus_i*2+1, v))
+    Map.put(z, :values, Map.put(z.values, z.focus_i*2+1, l.value))
   end
 
   @doc """
@@ -127,6 +136,6 @@ defmodule Zipper do
   """
   @spec set_right(Z.t, BT.t) :: Z.t
   def set_right(z, r) do
-    Map.put(z, :values, Map.put(z.values, z.focus_i*2+2, v))
+    Map.put(z, :values, Map.put(z.values, z.focus_i*2+2, r.value))
   end
 end
