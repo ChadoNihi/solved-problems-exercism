@@ -108,7 +108,7 @@ defmodule Zipper do
   """
   @spec up(Z.t) :: Z.t | nil
   def up(z) do
-    if z.focus > 0, do: set_focus(z, div(z.focus_i-1, 2))
+    if z.focus_i > 0, do: set_focus(z, div(z.focus_i-1, 2))
   end
 
   defp set_focus(z, i) do
