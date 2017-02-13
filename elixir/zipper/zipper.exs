@@ -128,7 +128,7 @@ defmodule Zipper do
   """
   @spec set_left(Z.t, BT.t) :: Z.t
   def set_left(z, l) do
-    Map.put(z, :values, Map.put(z.values, z.focus_i*2+1, l.value))
+    Map.put(z, :values, Map.put(z.values, z.focus_i*2+1, (if l, do: l.value)))
   end
 
   @doc """
@@ -136,6 +136,6 @@ defmodule Zipper do
   """
   @spec set_right(Z.t, BT.t) :: Z.t
   def set_right(z, r) do
-    Map.put(z, :values, Map.put(z.values, z.focus_i*2+2, r.value))
+    Map.put(z, :values, Map.put(z.values, z.focus_i*2+2, (if r, do: r.value)))
   end
 end
