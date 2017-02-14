@@ -136,6 +136,12 @@ defmodule Zipper do
   """
   @spec set_right(Z.t, BT.t) :: Z.t
   def set_right(z, r) do
-    Map.put(z, :values, Map.put(z.values, z.focus_i*2+2, (if r, do: r.value)))
+    set_right(z, r, z.focus_i)
+    #Map.put(z, :values, Map.put(z.values, z.focus_i*2+2, (if r, do: r.value)))
+  end
+  def set_right() when , do:
+  def set_right(z, r, i) do
+    Map.put(z, :values, Map.put(z.values, i*2+2, r.value))
+
   end
 end
