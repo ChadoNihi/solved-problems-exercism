@@ -10,7 +10,7 @@ defmodule MinesweeperTest do
 
   defp clean(b), do: Enum.map(b, &String.replace(&1, ~r/[^*]/, " "))
 
-  # @tag :pending
+  @tag :pending
   test "zero size board" do
     b = []
     assert Minesweeper.annotate(clean(b)) == b
@@ -32,7 +32,7 @@ defmodule MinesweeperTest do
     assert Minesweeper.annotate(clean(b)) == b
   end
 
-  @tag :pending
+  #@tag :pending
   test "surrounded" do
     b = ["***",
          "*8*",
