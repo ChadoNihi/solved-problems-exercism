@@ -5,6 +5,7 @@ defmodule Minesweeper do
   """
   @spec annotate([String.t]) :: [String.t]
 
+  def annotate([]), do: []
   def annotate(board) do
     max_r = Enum.count(board)-1
     max_c = String.length(hd(board))-1
@@ -42,8 +43,8 @@ defmodule Minesweeper do
   end
 
   defp count_col(brd, r, c) do
-    (if brd[r-1][c] == "*", do: 1, else: 0)
-    + (if brd[r][c] == "*", do: 1, else: 0)
-    + (if brd[r+1][c] == "*", do: 1, else: 0)
+    (if brd[r-1][c] == "*", do: 1, else: 0) +
+    (if brd[r][c] == "*", do: 1, else: 0) +
+    (if brd[r+1][c] == "*", do: 1, else: 0)
   end
 end
